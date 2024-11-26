@@ -1,49 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/outline';
 import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
 import { SearchFilters } from '../types';
 import { mockIndustries, mockLocations, mockCompanySizes } from '../mocks/distributors';
 import { useWishlist } from '../contexts/WishlistContext'; // 导入 useWishlist 钩子
-
-interface HomeFilterGroupProps {
-  title: string;
-  items: string[];
-  selectedItems: string[];
-  onItemClick: (item: string) => void;
-}
-
-const HomeFilterGroup: React.FC<HomeFilterGroupProps> = ({
-  title,
-  items,
-  selectedItems,
-  onItemClick,
-}) => (
-  <div className="relative group">
-    <button className="px-4 py-2 rounded-lg bg-white shadow-sm hover:shadow-md transition-all flex items-center space-x-2">
-      <span className="text-gray-700">{title}</span>
-      <ChevronDownIcon className="w-4 h-4 text-gray-400" />
-    </button>
-    
-    <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-xl p-4 hidden group-hover:block min-w-[200px] z-50">
-      <div className="grid grid-cols-1 gap-2">
-        {items.map((item) => (
-          <label key={item} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={selectedItems.includes(item)}
-              onChange={() => onItemClick(item)}
-              className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-            />
-            <span className="text-sm text-gray-600">{item}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  </div>
-);
+import HomeFilterPanel from '../components/Search/HomeFilterPanel';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -54,7 +17,7 @@ const Home: React.FC = () => {
     establishedYear: { min: 1900, max: 2024 },
     rating: 0
   });
-
+  
   // 添加显示筛选器的状态管理
   const [showFilters, setShowFilters] = useState(false);
 
@@ -62,7 +25,6 @@ const Home: React.FC = () => {
     const queryParams = new URLSearchParams();
     queryParams.set('q', query);
     
-    // 添加筛选条件到 URL
     if (searchFilters.industry.length) {
       queryParams.set('industry', searchFilters.industry.join(','));
     }
@@ -76,24 +38,11 @@ const Home: React.FC = () => {
     navigate(`/search?${queryParams.toString()}`);
   };
 
-  const toggleFilter = (type: keyof SearchFilters, value: string) => {
-    setSearchFilters(prev => {
-      const currentValues = prev[type] as string[];
-      return {
-        ...prev,
-        [type]: currentValues.includes(value)
-          ? currentValues.filter(v => v !== value)
-          : [...currentValues, value]
-      };
-    });
-  };
-
   return (
     <Layout>
       <div className="min-h-screen flex flex-col">
-        {/* Hero Section */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-          {/* Animated Background */}
+        <section className="relative h-[70vh] flex items-center justify-center">
+          {/* 移除 overflow-hidden */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-400/5 to-primary-500/10 animate-gradient" />
           
           <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -120,6 +69,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
+              className="relative"
             >
               <SearchBar 
                 onSearch={handleSearch}
@@ -129,6 +79,16 @@ const Home: React.FC = () => {
                   'Industrial Equipment Suppliers',
                   'Chemical Distribution Partners',
                 ]}
+              />
+              
+              <HomeFilterPanel
+                isOpen={showFilters}
+                onClose={() => setShowFilters(false)}
+                filters={searchFilters}
+                onFilterChange={setSearchFilters}
+                onApply={() => {
+                  // 可以在这里添加额外的处理逻辑
+                }}
               />
             </motion.div>
           </div>

@@ -19,6 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestions, setActiveSuggestions] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false); // 添加状态管理
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -79,8 +80,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
-            onClick={onFilterToggle}
-            className="flex items-center justify-center h-10 px-4 mr-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+            onClick={() => {
+              onFilterToggle();
+              setShowFilters(!showFilters); // 切换筛选器显示状态
+            }}
+            className={`
+              flex items-center justify-center h-10 px-4 mr-2 rounded-xl
+              transition-colors
+              ${showFilters 
+                ? 'bg-primary-50 text-primary-600 hover:bg-primary-100' 
+                : 'bg-gray-50 hover:bg-gray-100'
+              }
+            `}
           >
             <AdjustmentsIcon className="w-5 h-5 text-gray-500" />
             <span className="ml-2 text-sm text-gray-600">Filters</span>

@@ -6,14 +6,19 @@ declare module '@heroicons/react/solid' {
     export const OfficeBuildingIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const GlobeAltIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     // 根据需要添加更多图标声明
-  }
-  
-  declare module '@heroicons/react/outline' {
+}
+
+declare module '@heroicons/react/outline' {
     import React from 'react';
     export const XIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const HeartIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const AdjustmentsIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const ChevronDownIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const LightBulbIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const UserGroupIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const ChartBarIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     // 根据需要添加更多图标声明
-  }
+}

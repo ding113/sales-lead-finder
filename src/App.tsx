@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { HeartIcon } from '@heroicons/react/outline';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { WishlistProvider } from './contexts/WishlistContext'; // 添加 WishlistProvider 导入
+import About from './pages/About'; // 添加 About 组件的导入
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => {
                   <SearchResults />
                 } 
               />
+              <Route path="/about" element={<About />} /> {/* 添加 About 路由 */}
             </Routes>
 
             {/* Wishlist FAB */}
