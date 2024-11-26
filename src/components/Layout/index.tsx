@@ -51,24 +51,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Solutions</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Distributor Search</a></li>
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">AI Matching</a></li>
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Market Intelligence</a></li>
+                <li><a href="/distributor-search" className="text-base text-gray-500 hover:text-gray-900">Distributor Search</a></li>
+                <li><a href="/ai-matching" className="text-base text-gray-500 hover:text-gray-900">AI Matching</a></li>
+                <li><a href="/market-intelligence" className="text-base text-gray-500 hover:text-gray-900">Market Intelligence</a></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Support</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Documentation</a></li>
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">API</a></li>
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Contact</a></li>
+                <li><a href="/documentation" className="text-base text-gray-500 hover:text-gray-900">Documentation</a></li>
+                <li><a href="/api" className="text-base text-gray-500 hover:text-gray-900">API</a></li>
+                <li><a href="/contact" className="text-base text-gray-500 hover:text-gray-900">Contact</a></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Legal</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Privacy</a></li>
-                <li><a href="#" className="text-base text-gray-500 hover:text-gray-900">Terms</a></li>
+                <li><a href="/privacy" className="text-base text-gray-500 hover:text-gray-900">Privacy</a></li>
+                <li><a href="/terms" className="text-base text-gray-500 hover:text-gray-900">Terms</a></li>
               </ul>
             </div>
           </div>

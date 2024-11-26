@@ -3,8 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults';
 import WishlistDrawer from './components/Wishlist/WishlistDrawer';
-import { Distributor } from './types';
-import { mockDistributors } from './mocks/distributors';
 import { motion } from 'framer-motion';
 import { HeartIcon } from '@heroicons/react/outline';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -16,9 +14,9 @@ const queryClient = new QueryClient();
 const App = () => {
   const [showWishlist, setShowWishlist] = useState(false);
 
-  const handleSearch = (query: string) => {
-    // Implement search logic here
-  };
+  // const handleSearch = (query: string) => {
+  //   // Implement search logic here
+  // };
 
   return (
     <QueryClientProvider client={queryClient}>

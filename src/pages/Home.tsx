@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
 import { SearchFilters } from '../types';
-import { mockIndustries, mockLocations, mockCompanySizes } from '../mocks/distributors';
-import { useWishlist } from '../contexts/WishlistContext'; // 导入 useWishlist 钩子
+// import { mockIndustries, mockLocations, mockCompanySizes } from '../mocks/distributors';
 import HomeFilterPanel from '../components/Search/HomeFilterPanel';
 
 const Home: React.FC = () => {

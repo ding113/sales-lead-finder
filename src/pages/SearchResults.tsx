@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { debounce } from 'lodash';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
@@ -29,6 +28,18 @@ const SearchResults: React.FC = () => {
 
   const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
 
+  const handleSearch = useCallback((query: string) => {
+    setIsLoading(true);
+    
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('q', query);
+    navigate(`/search?${newSearchParams.toString()}`, { replace: true });
+
+    const searchResults = searchService.search(query);
+    setResults(searchResults);
+    setIsLoading(false);
+  }, [searchService, navigate, searchParams]);
+
   useEffect(() => {
     const query = searchParams.get('q') || '';
     const industry = searchParams.get('industry')?.split(',') || [];
@@ -43,19 +54,7 @@ const SearchResults: React.FC = () => {
     }));
 
     handleSearch(query);
-  }, [searchParams]);
-
-  const handleSearch = (query: string) => {
-    setIsLoading(true);
-    
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('q', query);
-    navigate(`/search?${newSearchParams.toString()}`, { replace: true });
-
-    const searchResults = searchService.search(query);
-    setResults(searchResults);
-    setIsLoading(false);
-  };
+  }, [searchParams, handleSearch]);
 
   const handleFilterChange = (newFilters: SearchFilters) => {
     setFilters(newFilters);
