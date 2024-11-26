@@ -16,10 +16,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-2"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center">
-              <span className="text-white font-bold">SL</span>
-            </div>
-            <span className="text-xl font-semibold text-gray-800">SalesLeadFinder</span>
+            <Link 
+              to="/" 
+              className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center">
+                <span className="text-white font-bold">SL</span>
+              </div>
+              <span className="text-xl font-semibold text-gray-800">SalesLeadFinder</span>
+            </Link>
           </motion.div>
           
           <nav className="hidden md:flex items-center space-x-6">

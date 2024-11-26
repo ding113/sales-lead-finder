@@ -1,21 +1,19 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XIcon, HeartIcon } from '@heroicons/react/outline';
-import { Distributor } from '../../types';
+import { useWishlist } from '../../contexts/WishlistContext';
 
 interface WishlistDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  items: Distributor[];
-  onRemove: (id: string) => void;
 }
 
 const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
   isOpen,
   onClose,
-  items,
-  onRemove,
 }) => {
+  const { wishlistItems, removeFromWishlist } = useWishlist(); // 使用 useWishlist 钩子
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,7 +41,7 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                   <HeartIcon className="h-5 w-5 text-primary-600" />
                   <h2 className="text-lg font-semibold text-gray-900">Wishlist</h2>
                   <span className="bg-primary-100 text-primary-600 text-sm font-medium px-2.5 py-0.5 rounded-full">
-                    {items.length}
+                    {wishlistItems.length}
                   </span>
                 </div>
                 <button
@@ -55,14 +53,14 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
               </div>
 
               <div className="flex-1 overflow-y-auto p-6">
-                {items.length === 0 ? (
+                {wishlistItems.length === 0 ? (
                   <div className="text-center py-12">
                     <HeartIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-500">Your wishlist is empty</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {items.map((item) => (
+                    {wishlistItems.map((item) => (
                       <motion.div
                         key={item.id}
                         initial={{ opacity: 0, y: 20 }}
@@ -80,7 +78,7 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                             </p>
                           </div>
                           <button
-                            onClick={() => onRemove(item.id)}
+                            onClick={() => removeFromWishlist(item.id)}
                             className="p-1 hover:bg-gray-100 rounded-full"
                           >
                             <XIcon className="h-4 w-4 text-gray-400" />

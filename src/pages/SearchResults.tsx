@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
@@ -6,18 +7,15 @@ import FilterPanel from '../components/Filter/FilterPanel';
 import DistributorCard from '../components/Distributor/DistributorCard';
 import { Distributor, SearchFilters } from '../types';
 import { mockDistributors } from '../mocks/distributors';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import SearchService from '../services/search';
+import { useWishlist } from '../contexts/WishlistContext';
 
-interface SearchResultsProps {
-  onAddToWishlist: (id: string) => void;
-  wishlistItems: Distributor[];
-}
-
-const SearchResults: React.FC<SearchResultsProps> = ({ 
-  onAddToWishlist, 
-  wishlistItems 
-}) => {
+const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { isInWishlist, addToWishlist } = useWishlist();
+  
   const [showFilters, setShowFilters] = useState(false);
   const [results, setResults] = useState<Distributor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,25 +26,35 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     establishedYear: { min: 1900, max: 2024 },
     rating: 0,
   });
-  
-  const [wishlist, setWishlist] = useState<string[]>([]); // 添加 wishlist 状态
+
+  const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
 
   useEffect(() => {
     const query = searchParams.get('q') || '';
+    const industry = searchParams.get('industry')?.split(',') || [];
+    const location = searchParams.get('location')?.split(',') || [];
+    const size = searchParams.get('size')?.split(',') || [];
+
+    setFilters(prev => ({
+      ...prev,
+      industry,
+      location,
+      companySize: size
+    }));
+
     handleSearch(query);
   }, [searchParams]);
 
   const handleSearch = (query: string) => {
     setIsLoading(true);
-    setTimeout(() => {
-      const filtered = mockDistributors.filter(
-        (d) =>
-          d.companyName.toLowerCase().includes(query.toLowerCase()) ||
-          d.description.toLowerCase().includes(query.toLowerCase())
-      );
-      setResults(filtered);
-      setIsLoading(false);
-    }, 500);
+    
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set('q', query);
+    navigate(`/search?${newSearchParams.toString()}`, { replace: true });
+
+    const searchResults = searchService.search(query);
+    setResults(searchResults);
+    setIsLoading(false);
   };
 
   const handleFilterChange = (newFilters: SearchFilters) => {
@@ -75,12 +83,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       );
     });
     setResults(filtered);
-  };
-
-  const handleWishlist = (id: string) => {
-    setWishlist((prev: string[]) =>
-      prev.includes(id) ? prev.filter((i: string) => i !== id) : [...prev, id]
-    );
   };
 
   return (
@@ -157,8 +159,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({
                       <DistributorCard
                         key={distributor.id}
                         distributor={distributor}
-                        onAddToWishlist={handleWishlist}
-                        isInWishlist={wishlist.includes(distributor.id)}
+                        onAddToWishlist={() => addToWishlist(distributor)}
+                        isInWishlist={isInWishlist(distributor.id)}
                       />
                     ))}
                   </motion.div>

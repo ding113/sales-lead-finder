@@ -8,23 +8,12 @@ import { mockDistributors } from './mocks/distributors';
 import { motion } from 'framer-motion';
 import { HeartIcon } from '@heroicons/react/outline';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { WishlistProvider } from './contexts/WishlistContext'; // 添加 WishlistProvider 导入
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showWishlist, setShowWishlist] = useState(false);
-  const [wishlistItems, setWishlistItems] = useState<Distributor[]>([]);
-
-  const handleAddToWishlist = (id: string) => {
-    const item = mockDistributors.find((d) => d.id === id);
-    if (item) {
-      setWishlistItems((prev) =>
-        prev.some((i) => i.id === id)
-          ? prev.filter((i) => i.id !== id)
-          : [...prev, item]
-      );
-    }
-  };
 
   const handleSearch = (query: string) => {
     // Implement search logic here
@@ -32,42 +21,40 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <div className="relative">
-          <Routes>
-            <Route path="/" element={<Home onSearch={handleSearch} />} />
-            <Route 
-              path="/search" 
-              element={
-                <SearchResults 
-                  onAddToWishlist={handleAddToWishlist}
-                  wishlistItems={wishlistItems}
-                />
-              } 
+      <WishlistProvider> {/* 使用 WishlistProvider 包裹应用 */}
+        <BrowserRouter>
+          <div className="relative">
+            <Routes>
+              <Route path="/" element={<Home />} /> {/* 移除 onSearch 属性 */}
+              <Route 
+                path="/search" 
+                element={
+                  <SearchResults />
+                } 
+              />
+            </Routes>
+
+            {/* Wishlist FAB */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowWishlist(true)}
+              className="fixed bottom-8 right-8 bg-primary-600 text-white p-4 rounded-full shadow-lg hover:bg-primary-700 flex items-center space-x-2 z-50"
+            >
+              <HeartIcon className="h-6 w-6" />
+              <span className="text-sm font-medium">
+                Wishlist
+              </span>
+            </motion.button>
+
+            <WishlistDrawer
+              isOpen={showWishlist}
+              onClose={() => setShowWishlist(false)}
+              // 移除 items 和 onRemove 属性
             />
-          </Routes>
-
-          {/* Wishlist FAB */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowWishlist(true)}
-            className="fixed bottom-8 right-8 bg-primary-600 text-white p-4 rounded-full shadow-lg hover:bg-primary-700 flex items-center space-x-2 z-50"
-          >
-            <HeartIcon className="h-6 w-6" />
-            <span className="text-sm font-medium">
-              Wishlist ({wishlistItems.length})
-            </span>
-          </motion.button>
-
-          <WishlistDrawer
-            isOpen={showWishlist}
-            onClose={() => setShowWishlist(false)}
-            items={wishlistItems}
-            onRemove={(id) => handleAddToWishlist(id)}
-          />
-        </div>
-      </BrowserRouter>
+          </div>
+        </BrowserRouter>
+      </WishlistProvider>
     </QueryClientProvider>
   );
 };

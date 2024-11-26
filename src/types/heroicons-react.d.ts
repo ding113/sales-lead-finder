@@ -14,5 +14,6 @@ declare module '@heroicons/react/solid' {
     export const HeartIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const AdjustmentsIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const ChevronDownIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     // 根据需要添加更多图标声明
   }
