@@ -1,7 +1,7 @@
 // src/components/Search/HomeFilterPanel.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { XIcon, CheckIcon } from '@heroicons/react/outline';
+import { XIcon } from '@heroicons/react/outline';
 import { SearchFilters } from '../../types';
 import { mockIndustries, mockLocations, mockCompanySizes } from '../../mocks/distributors';
 
