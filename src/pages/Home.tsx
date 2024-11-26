@@ -1,41 +1,120 @@
-// src/pages/Home.tsx
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import Layout from '../components/Layout';
+import SearchBar from '../components/Search/SearchBar';
+import { useNavigate } from 'react-router-dom'; // 添加这行
 
-// 从 React 库中导入 React
-import React from 'react';
+interface HomeProps {
+  onSearch: (query: string) => void;
+}
 
-// 从 react-router-dom 库中导入 useNavigate 钩子
-import { useNavigate } from 'react-router-dom';
+const Home: React.FC<HomeProps> = ({ onSearch }) => {
+  const navigate = useNavigate(); // 添加这行
+  const [showFilters, setShowFilters] = useState(false);
 
-// 导入 SearchBar 组件
-import SearchBar from '../components/SearchBar';
-
-// 定义一个 Home 函数组件，类型为 React.FC（函数组件）
-const Home: React.FC = () => {
-  // 使用 useNavigate 钩子获取导航函数
-  const navigate = useNavigate();
-
-  // 定义处理搜索的函数，接收搜索词作为参数
-  const handleSearch = (searchTerm: string) => {
-    // 使用 navigate 函数导航到搜索结果页面，路径中包含编码后的搜索词
-    navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+  const handleSearch = (query: string) => {
+    // 使用 URL 参数导航到搜索结果页
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
-  // 返回 JSX 元素，表示页面的结构和内容
   return (
-    // 包裹内容的外层 div，应用了一些 Tailwind CSS 样式
-    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-b from-blue-100 to-blue-200">
-      {/* 内层 div，用于居中内容和限制宽度 */}
-      <div className="text-center w-full px-4 max-w-4xl mx-auto">
-        {/* 页面的标题，应用了一些 Tailwind CSS 样式 */}
-        <h1 className="text-5xl sm:text-6xl font-bold text-blue-600 mb-4">销售易</h1>
-        {/* 页面的副标题，应用了一些 Tailwind CSS 样式 */}
-        <p className="text-xl sm:text-2xl mb-8 text-gray-600">找到您的理想客户</p>
-        {/* 搜索栏组件，传递 handleSearch 函数作为 onSearch 属性 */}
-        <SearchBar onSearch={handleSearch} />
+    <Layout>
+      <div className="min-h-screen flex flex-col">
+        {/* Hero Section */}
+        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-400/5 to-primary-500/10 animate-gradient" />
+          
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+            >
+              Find Your Perfect
+              <span className="text-primary-600"> Distributor</span>
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-gray-600 mb-12"
+            >
+              Connect with trusted distributors worldwide using AI-powered matching
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <SearchBar 
+                onSearch={handleSearch}
+                onFilterToggle={() => setShowFilters(!showFilters)}
+                suggestions={[
+                  'Electronics Distributors in Asia',
+                  'Industrial Equipment Suppliers',
+                  'Chemical Distribution Partners',
+                ]}
+              />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-24 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Why Choose SalesLeadFinder
+              </h2>
+              <p className="text-xl text-gray-600">
+                Advanced features to streamline your distributor search
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: 'AI-Powered Matching',
+                  description: 'Our intelligent algorithm finds the perfect distributors based on your specific needs',
+                  icon: '🤖'
+                },
+                {
+                  title: 'Verified Partners',
+                  description: 'All distributors are thoroughly vetted to ensure reliability and quality',
+                  icon: '✓'
+                },
+                {
+                  title: 'Global Network',
+                  description: 'Access to distributors across all major markets worldwide',
+                  icon: '🌍'
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
+    </Layout>
   );
 };
 
-// 导出 Home 组件，供其他模块使用
 export default Home;
