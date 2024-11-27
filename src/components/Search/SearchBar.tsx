@@ -1,32 +1,38 @@
 import React, { useState, KeyboardEvent, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline';
+import { getRandomSuggestions, filterSuggestions } from '../../mocks/searchSuggestions';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
   onFilterToggle: () => void;
-  suggestions?: string[];
-  defaultSuggestions?: string[];
-  initialQuery?: string; // 新增属性
+  initialQuery?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   onFilterToggle,
-  suggestions = [],
-  defaultSuggestions = [],
-  initialQuery = '' // 增加默认值
+  initialQuery = ''
 }) => {
-  const [query, setQuery] = useState(initialQuery); // 使用initialQuery
+  const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [activeSuggestions, setActiveSuggestions] = useState<string[]>([]);
-  const [showFilters, setShowFilters] = useState(false); // 添加状态管理
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
 
-  // 添加effect用于同步initialQuery的变化
   useEffect(() => {
     setQuery(initialQuery);
   }, [initialQuery]);
+
+  useEffect(() => {
+    // 当输入框为空时，显示随机建议
+    if (!query) {
+      setSuggestions(getRandomSuggestions(3));
+    } else {
+      // 当有输入时，根据输入内容过滤建议
+      setSuggestions(filterSuggestions(query));
+    }
+  }, [query]);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -44,7 +50,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    setActiveSuggestions(newQuery ? suggestions : defaultSuggestions);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setQuery(suggestion);
+    onSearch(suggestion);
+    setShowSuggestions(false);
   };
 
   return (
@@ -78,7 +89,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
             className="flex-1 h-full pl-4 bg-transparent border-none focus:ring-0 text-gray-900 placeholder-gray-400"
           />
           
-          {/* 搜索按钮 */}
           <button
             onClick={handleSearch}
             className="flex items-center justify-center h-10 px-6 mr-2 rounded-xl bg-primary-500 hover:bg-primary-600 transition-colors text-white"
@@ -89,7 +99,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           <button
             onClick={() => {
               onFilterToggle();
-              setShowFilters(!showFilters); // 切换筛选器显示状态
+              setShowFilters(!showFilters);
             }}
             className={`
               flex items-center justify-center h-10 px-4 mr-2 rounded-xl
@@ -100,31 +110,33 @@ const SearchBar: React.FC<SearchBarProps> = ({
               }
             `}
           >
-            <AdjustmentsIcon className="w-5 h-5 text-gray-500" />
-            <span className="ml-2 text-sm text-gray-600">Filters</span>
+            <AdjustmentsIcon className="w-5 h-5" />
           </button>
         </div>
 
+        {/* 搜索建议下拉框 */}
         <AnimatePresence>
-          {showSuggestions && activeSuggestions.length > 0 && (
+          {showSuggestions && suggestions.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute w-full mt-2 py-2 bg-white rounded-xl shadow-xl z-50"
+              className="absolute w-full mt-2 py-2 bg-white rounded-xl shadow-lg z-50 border border-gray-100"
             >
-              {activeSuggestions.map((suggestion, index) => (
-                <button
+              {suggestions.map((suggestion, index) => (
+                <div
                   key={index}
-                  onClick={() => {
-                    setQuery(suggestion);
-                    handleSearch();
-                  }}
-                  className="w-full px-4 py-2 text-left hover:bg-gray-50 text-gray-700 flex items-center space-x-2"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center group"
                 >
-                  <SearchIcon className="w-4 h-4 text-gray-400" />
-                  <span>{suggestion}</span>
-                </button>
+                  <SearchIcon className="w-4 h-4 text-gray-400 group-hover:text-primary-500 mr-3" />
+                  <div className="flex-1">
+                    <span className="text-gray-700 group-hover:text-gray-900">{suggestion}</span>
+                  </div>
+                  {/* <div className="text-xs text-gray-400 group-hover:text-primary-500">
+                    Search
+                  </div> */}
+                </div>
               ))}
             </motion.div>
           )}

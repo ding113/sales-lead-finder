@@ -44,12 +44,12 @@ const Home: React.FC = () => {
           {/* 移除 overflow-hidden */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-400/5 to-primary-500/10 animate-gradient" />
           
-          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+              className="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6"
             >
               Find Your Perfect
               <span className="text-primary-600"> Distributor</span>
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-gray-600 mb-12"
+              className="text-center text-xl text-gray-600 mb-12"
             >
               Connect with trusted distributors worldwide using AI-powered matching
             </motion.p>
@@ -68,16 +68,11 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="relative"
+              className="relative text-left"
             >
               <SearchBar 
                 onSearch={handleSearch}
                 onFilterToggle={() => setShowFilters(!showFilters)}
-                suggestions={[
-                  'Electronics Distributors in Asia',
-                  'Industrial Equipment Suppliers',
-                  'Chemical Distribution Partners',
-                ]}
               />
               
               <HomeFilterPanel
