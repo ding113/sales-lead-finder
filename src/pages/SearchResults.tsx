@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
 import FilterPanel from '../components/Filter/FilterPanel';
 import DistributorCard from '../components/Distributor/DistributorCard';
+import { SummaryModal } from '../components/AI/SummaryModal';
 import { Distributor, SearchFilters } from '../types';
 import { mockDistributors } from '../mocks/distributors';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -17,6 +18,7 @@ const SearchResults: React.FC = () => {
   const query = searchParams.get('q') || '';
   
   const [showFilters, setShowFilters] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
   const [results, setResults] = useState<Distributor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<SearchFilters>({
@@ -125,31 +127,31 @@ const SearchResults: React.FC = () => {
               ) : (
                 <>
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900">
-                      {results.length} distributors found
-                    </h2>
                     <div className="flex items-center space-x-4">
-                      <select
-                        className="rounded-md border-gray-300 text-sm focus:ring-primary-500 focus:border-primary-500"
-                        onChange={(e) => {
-                          const sorted = [...results].sort((a, b) => {
-                            switch (e.target.value) {
-                              case 'rating':
-                                return b.rating - a.rating;
-                              case 'year':
-                                return b.establishedYear - a.establishedYear;
-                              default:
-                                return 0;
-                            }
-                          });
-                          setResults(sorted);
-                        }}
+                      <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                       >
-                        <option value="">Sort by</option>
-                        <option value="rating">Rating</option>
-                        <option value="year">Year Established</option>
-                      </select>
+                        <svg className="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
+                        </svg>
+                        Filters
+                      </button>
+                      {results.length > 0 && (
+                        <button
+                          onClick={() => setShowSummary(true)}
+                          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                        >
+                          <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                          </svg>
+                          AI Summary
+                        </button>
+                      )}
                     </div>
+                    <p className="text-sm text-gray-500">
+                      {results.length} results found
+                    </p>
                   </div>
 
                   <motion.div
@@ -172,6 +174,8 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <SummaryModal isOpen={showSummary} onClose={() => setShowSummary(false)} />
     </Layout>
   );
 };

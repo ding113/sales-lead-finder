@@ -29,8 +29,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-gray-600 hover:text-primary-600 transition-colors">Home</Link>
+            <Link to="/submit" className="text-gray-600 hover:text-primary-600 transition-colors">Submit</Link>
             <Link to="/about" className="text-gray-600 hover:text-primary-600 transition-colors">About</Link>
-            <Link to="/" className="text-gray-600 hover:text-primary-600 transition-colors">Contact</Link>
           </nav>
         </div>
       </header>
@@ -74,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
           <div className="mt-8 border-t border-gray-200 pt-8">
             <p className="text-base text-gray-400 text-center">
-              © 2024 SalesLeadFinder. All rights reserved.
+              2024 SalesLeadFinder. All rights reserved.
             </p>
           </div>
         </div>

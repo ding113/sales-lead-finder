@@ -6,8 +6,9 @@ import WishlistDrawer from './components/Wishlist/WishlistDrawer';
 import { motion } from 'framer-motion';
 import { HeartIcon } from '@heroicons/react/outline';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { WishlistProvider } from './contexts/WishlistContext'; // 添加 WishlistProvider 导入
-import About from './pages/About'; // 添加 About 组件的导入
+import { WishlistProvider } from './contexts/WishlistContext'; 
+import About from './pages/About'; 
+import Submit from './pages/Submit';
 
 const queryClient = new QueryClient();
 
@@ -20,18 +21,19 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <WishlistProvider> {/* 使用 WishlistProvider 包裹应用 */}
+      <WishlistProvider> 
         <BrowserRouter>
           <div className="relative">
             <Routes>
-              <Route path="/" element={<Home />} /> {/* 移除 onSearch 属性 */}
+              <Route path="/" element={<Home />} /> 
               <Route 
                 path="/search" 
                 element={
                   <SearchResults />
                 } 
               />
-              <Route path="/about" element={<About />} /> {/* 添加 About 路由 */}
+              <Route path="/about" element={<About />} /> 
+              <Route path="/submit" element={<Submit />} />
             </Routes>
 
             {/* Wishlist FAB */}
