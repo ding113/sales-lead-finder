@@ -16,6 +16,12 @@ declare module '@heroicons/react/outline' {
     export const AdjustmentsIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const ChevronDownIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const ChipIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const DatabaseIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CloudIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const SearchCircleIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CogIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const LightBulbIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const UserGroupIcon: React.FC<React.SVGProps<SVGSVGElement>>;
