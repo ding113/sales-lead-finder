@@ -59,22 +59,19 @@ const Submit: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate submission process
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Store to localStorage
-    const submissions = JSON.parse(localStorage.getItem('distributorSubmissions') || '[]');
-    const newSubmission = {
-      ...formData,
-      id: `submission_${Date.now()}`,
-      submittedAt: new Date().toISOString()
-    };
-    submissions.push(newSubmission);
-    localStorage.setItem('distributorSubmissions', JSON.stringify(submissions));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setShowSuccess(true);
+      setTimeout(() => {
+        navigate('/'); // Redirect to home page after successful submission
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStepIndicator = () => (

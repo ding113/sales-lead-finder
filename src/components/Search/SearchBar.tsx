@@ -7,18 +7,19 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
   onFilterToggle: () => void;
   initialQuery?: string;
+  className?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   onFilterToggle,
-  initialQuery = ''
+  initialQuery = '',
+  className = ''
 }) => {
   const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     setQuery(initialQuery);
@@ -50,6 +51,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
+    setShowSuggestions(true);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -59,7 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className={`w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,6 +85,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             }}
             onBlur={() => {
               setIsFocused(false);
+              // 延迟隐藏建议，以便可以点击建议
               setTimeout(() => setShowSuggestions(false), 200);
             }}
             placeholder="Search for distributors, industries, or locations..."
@@ -97,18 +100,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
           </button>
 
           <button
-            onClick={() => {
-              onFilterToggle();
-              setShowFilters(!showFilters);
-            }}
-            className={`
-              flex items-center justify-center h-10 px-4 mr-2 rounded-xl
-              transition-colors
-              ${showFilters 
-                ? 'bg-primary-50 text-primary-600 hover:bg-primary-100' 
-                : 'bg-gray-50 hover:bg-gray-100'
-              }
-            `}
+            onClick={onFilterToggle}
+            className="flex items-center justify-center h-10 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
           >
             <AdjustmentsIcon className="w-5 h-5" />
           </button>
