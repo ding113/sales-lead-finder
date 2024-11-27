@@ -64,13 +64,13 @@ const HomeFilterPanel: React.FC<HomeFilterPanelProps> = ({
     <AnimatePresence>
       {isOpen && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-25 z-50" />
+          <div className="fixed inset-0 bg-black bg-opacity-25 z-[100]" />
           <motion.div
             ref={panelRef}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 right-10 w-96 bg-white rounded-xl shadow-xl z-60 overflow-hidden"
+            className="fixed top-20 right-10 w-96 bg-white rounded-xl shadow-xl z-[101] overflow-hidden" 
           >
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
               <h3 className="text-lg font-semibold text-gray-900">

@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline';
 
@@ -7,19 +7,26 @@ interface SearchBarProps {
   onFilterToggle: () => void;
   suggestions?: string[];
   defaultSuggestions?: string[];
+  initialQuery?: string; // 新增属性
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   onFilterToggle,
   suggestions = [],
-  defaultSuggestions = []
+  defaultSuggestions = [],
+  initialQuery = '' // 增加默认值
 }) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery); // 使用initialQuery
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSuggestions, setActiveSuggestions] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false); // 添加状态管理
+
+  // 添加effect用于同步initialQuery的变化
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   const handleSearch = () => {
     if (query.trim()) {

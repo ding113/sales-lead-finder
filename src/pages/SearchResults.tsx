@@ -14,6 +14,7 @@ const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isInWishlist, addToWishlist } = useWishlist();
+  const query = searchParams.get('q') || '';
   
   const [showFilters, setShowFilters] = useState(false);
   const [results, setResults] = useState<Distributor[]>([]);
@@ -28,14 +29,14 @@ const SearchResults: React.FC = () => {
 
   const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
 
-  const handleSearch = useCallback((query: string) => {
+  const handleSearch = useCallback((newQuery: string) => {
     setIsLoading(true);
     
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('q', query);
+    newSearchParams.set('q', newQuery);
     navigate(`/search?${newSearchParams.toString()}`, { replace: true });
 
-    const searchResults = searchService.search(query);
+    const searchResults = searchService.search(newQuery);
     setResults(searchResults);
     setIsLoading(false);
   }, [searchService, navigate, searchParams]);
@@ -90,8 +91,10 @@ const SearchResults: React.FC = () => {
         <div className="sticky top-16 z-30 bg-white border-b border-gray-200 shadow-sm">
           <div className="max-w-7xl mx-auto py-4">
             <SearchBar
+              key={query} // 添加key属性以强制重新挂载
               onSearch={handleSearch}
               onFilterToggle={() => setShowFilters(!showFilters)}
+              initialQuery={query}
             />
           </div>
         </div>
