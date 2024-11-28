@@ -17,6 +17,11 @@ declare module '@heroicons/react/outline' {
     export const ChevronDownIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const GlobeAltIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const MailIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const PhoneIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const UserGroupIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const ChipIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const DatabaseIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const CloudIcon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -26,5 +31,4 @@ declare module '@heroicons/react/outline' {
     export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const UserGroupIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const ChartBarIcon: React.FC<React.SVGProps<SVGSVGElement>>;
-    // 根据需要添加更多图标声明
 }
