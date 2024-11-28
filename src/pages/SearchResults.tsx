@@ -175,6 +175,17 @@ const SearchResults: React.FC = () => {
                         <AdjustmentsIcon className="h-5 w-5 text-gray-400 mr-2" />
                         Filters
                       </button>
+                      <button
+                        onClick={() => setShowSummary(true)}
+                        className="inline-flex items-center px-4 py-2 border-0 rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
+                      >
+                        <svg className="h-5 w-5 mr-2 animate-pulse" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        AI Summary
+                      </button>
                     </div>
                     <p className="text-sm text-gray-500">
                       Showing {(currentPage - 1) * pageSize + 1} to{' '}
@@ -243,11 +254,17 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <DistributorDetailsModal
-        distributor={selectedDistributor}
-        isOpen={!!selectedDistributor}
-        onClose={() => setSelectedDistributor(null)}
+      {selectedDistributor && (
+        <DistributorDetailsModal
+          distributor={selectedDistributor}
+          isOpen={!!selectedDistributor}
+          onClose={() => setSelectedDistributor(null)}
+        />
+      )}
+      <SummaryModal
+        isOpen={showSummary}
+        onClose={() => setShowSummary(false)}
+        distributors={results}
       />
     </Layout>
   );
