@@ -12,7 +12,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XIcon } from '@heroicons/react/outline';
 import { SearchFilters } from '../../types';
-import { mockIndustries, mockLocations, mockCompanySizes } from '../../mocks/distributors';
+import { industryCategories, locationCategories } from '../../mocks/categories';
+import { mockCompanySizes } from '../../mocks/distributors';
+import CategoryFilter from './CategoryFilter';
 
 interface FilterPanelProps {
   isOpen: boolean;
@@ -27,7 +29,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   filters,
   onFilterChange,
 }) => {
-  // 将本地状态初始化为传入的过滤器值
   const [localFilters, setLocalFilters] = useState<SearchFilters>(filters);
 
   const handleFilterChange = (key: keyof SearchFilters, value: any) => {
@@ -80,48 +81,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
               <div className="p-4 space-y-6">
                 {/* Industry Filter */}
-                <FilterSection title="Industry">
-                  <div className="space-y-2">
-                    {mockIndustries.map((industry) => (
-                      <label key={industry} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={localFilters.industry.includes(industry)}
-                          onChange={(e) => {
-                            const newIndustries = e.target.checked
-                              ? [...localFilters.industry, industry]
-                              : localFilters.industry.filter((i) => i !== industry);
-                            handleFilterChange('industry', newIndustries);
-                          }}
-                          className="h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">{industry}</span>
-                      </label>
-                    ))}
-                  </div>
-                </FilterSection>
+                <CategoryFilter
+                  title="Industry"
+                  categories={industryCategories}
+                  selectedValues={localFilters.industry}
+                  onChange={(values) => handleFilterChange('industry', values)}
+                />
 
                 {/* Location Filter */}
-                <FilterSection title="Location">
-                  <div className="space-y-2">
-                    {mockLocations.map((location) => (
-                      <label key={location} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={localFilters.location.includes(location)}
-                          onChange={(e) => {
-                            const newLocations = e.target.checked
-                              ? [...localFilters.location, location]
-                              : localFilters.location.filter((l) => l !== location);
-                            handleFilterChange('location', newLocations);
-                          }}
-                          className="h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">{location}</span>
-                      </label>
-                    ))}
-                  </div>
-                </FilterSection>
+                <CategoryFilter
+                  title="Location"
+                  categories={locationCategories}
+                  selectedValues={localFilters.location}
+                  onChange={(values) => handleFilterChange('location', values)}
+                />
 
                 {/* Company Size Filter */}
                 <FilterSection title="Company Size">
