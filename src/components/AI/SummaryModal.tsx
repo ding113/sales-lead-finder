@@ -57,7 +57,7 @@ export const SummaryModal: React.FC<Props> = ({ isOpen, onClose, distributors })
                     <div key={dist.id} className="flex items-center space-x-3 p-2 rounded-lg bg-indigo-50/50">
                       <span className="text-lg">{['🥇', '🥈', '🥉'][idx]}</span>
                       <div>
-                        <p className="font-medium">{dist.name}</p>
+                        <p className="font-medium">{dist.companyName}</p>
                         <p className="text-sm text-gray-600">{dist.industry.join(', ')} • {dist.rating}⭐</p>
                       </div>
                     </div>
