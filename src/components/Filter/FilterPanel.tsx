@@ -8,7 +8,7 @@ declare module '@heroicons/react/outline' {
 }
 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XIcon } from '@heroicons/react/outline';
 import { SearchFilters } from '../../types';
@@ -30,12 +30,36 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   onFilterChange,
 }) => {
   const [localFilters, setLocalFilters] = useState<SearchFilters>(filters);
+  const [showGradient, setShowGradient] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleFilterChange = (key: keyof SearchFilters, value: any) => {
     const updatedFilters = { ...localFilters, [key]: value };
     setLocalFilters(updatedFilters);
     onFilterChange(updatedFilters);
   };
+
+  useEffect(() => {
+    const checkScroll = () => {
+      if (contentRef.current) {
+        const { scrollHeight, clientHeight, scrollTop } = contentRef.current;
+        setShowGradient(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight);
+      }
+    };
+
+    const contentElement = contentRef.current;
+    if (contentElement) {
+      contentElement.addEventListener('scroll', checkScroll);
+      // 初始检查
+      checkScroll();
+    }
+
+    return () => {
+      if (contentElement) {
+        contentElement.removeEventListener('scroll', checkScroll);
+      }
+    };
+  }, [isOpen]);
 
   const FilterSection: React.FC<{
     title: string;
@@ -66,19 +90,36 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-y-0 left-0 w-80 bg-white shadow-xl z-50 lg:relative lg:inset-auto lg:shadow-none"
+            className="fixed inset-y-0 left-0 w-80 bg-white shadow-xl z-50 lg:relative lg:inset-auto lg:shadow-none flex flex-col"
+            style={{ maxHeight: 'calc(100vh - 200px)' }}
           >
-            <div className="h-full overflow-y-auto">
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
-                <button
-                  onClick={onClose}
-                  className="lg:hidden p-2 rounded-md hover:bg-gray-100"
-                >
-                  <XIcon className="h-5 w-5 text-gray-500" />
-                </button>
-              </div>
+            {/* Header */}
+            <div className="flex-shrink-0 p-4 border-b border-gray-200 flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+              <button
+                onClick={onClose}
+                className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+              >
+                <XIcon className="h-5 w-5 text-gray-500" />
+              </button>
+            </div>
 
+            {/* Scrollable Content */}
+            <div 
+              ref={contentRef}
+              className="flex-1 overflow-y-auto relative"
+              style={{ 
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
+            >
+              <style>
+                {`
+                  .filter-content::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}
+              </style>
               <div className="p-4 space-y-6">
                 {/* Industry Filter */}
                 <CategoryFilter
@@ -172,11 +213,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               </div>
             </div>
 
-            {/* Mobile backdrop */}
-            {isOpen && (
+            {/* Gradient Overlay */}
+            {showGradient && (
               <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-                onClick={onClose}
+                className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(to bottom, transparent, white)',
+                }}
               />
             )}
           </motion.div>

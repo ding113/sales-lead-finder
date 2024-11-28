@@ -92,19 +92,21 @@ const SearchBar: React.FC<SearchBarProps> = ({
             className="flex-1 h-full pl-4 bg-transparent border-none focus:ring-0 text-gray-900 placeholder-gray-400"
           />
           
-          <button
-            onClick={handleSearch}
-            className="flex items-center justify-center h-10 px-6 mr-2 rounded-xl bg-primary-500 hover:bg-primary-600 transition-colors text-white"
-          >
-            <SearchIcon className="w-5 h-5" />
-          </button>
+          <div className="flex items-center h-full pr-2">
+            <button
+              onClick={handleSearch}
+              className="flex items-center justify-center h-10 w-12 rounded-xl bg-primary-500 hover:bg-primary-600 transition-colors text-white"
+            >
+              <SearchIcon className="w-5 h-5" />
+            </button>
 
-          <button
-            onClick={onFilterToggle}
-            className="flex items-center justify-center h-10 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            <AdjustmentsIcon className="w-5 h-5" />
-          </button>
+            <button
+              onClick={onFilterToggle}
+              className="flex items-center justify-center h-10 w-12 ml-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+            >
+              <AdjustmentsIcon className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
         </div>
 
         {/* 搜索建议下拉框 */}
@@ -126,9 +128,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
                   <div className="flex-1">
                     <span className="text-gray-700 group-hover:text-gray-900">{suggestion}</span>
                   </div>
-                  {/* <div className="text-xs text-gray-400 group-hover:text-primary-500">
-                    Search
-                  </div> */}
                 </div>
               ))}
             </motion.div>
