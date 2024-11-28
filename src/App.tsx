@@ -9,6 +9,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { WishlistProvider } from './contexts/WishlistContext'; 
 import About from './pages/About'; 
 import Submit from './pages/Submit';
+import DistributorSearch from './pages/solutions/DistributorSearch';
+import AIMatching from './pages/solutions/AIMatching';
+import MarketIntelligence from './pages/solutions/MarketIntelligence';
+import Documentation from './pages/support/Documentation';
+import API from './pages/support/API';
+import Contact from './pages/support/Contact';
+import Privacy from './pages/legal/Privacy';
+import Terms from './pages/legal/Terms';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +42,14 @@ const App = () => {
               />
               <Route path="/about" element={<About />} /> 
               <Route path="/submit" element={<Submit />} />
+              <Route path="/distributor-search" element={<DistributorSearch />} />
+              <Route path="/ai-matching" element={<AIMatching />} />
+              <Route path="/market-intelligence" element={<MarketIntelligence />} />
+              <Route path="/documentation" element={<Documentation />} />
+              <Route path="/api" element={<API />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
             </Routes>
 
             {/* Wishlist FAB */}
