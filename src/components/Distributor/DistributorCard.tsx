@@ -51,10 +51,11 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
             </h3>
             {renderRating(distributor.rating)}
           </div>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => onAddToWishlist(distributor.id)}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToWishlist(distributor.id);
+            }}
             className={`p-2 rounded-full ${
               isInWishlist 
                 ? 'bg-primary-50 text-primary-600' 
@@ -64,7 +65,7 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
             <HeartIcon 
               className={`h-5 w-5 ${isInWishlist ? 'fill-current' : ''}`}
             />
-          </motion.button>
+          </button>
         </div>
 
         <p className="mt-3 text-gray-600 line-clamp-2">
@@ -99,6 +100,7 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
               <a
                 href={`mailto:${distributor.contact.email}`}
                 className="text-sm text-primary-600 hover:text-primary-700"
+                onClick={(e) => e.stopPropagation()}
               >
                 Contact
               </a>
@@ -108,6 +110,7 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-sm text-gray-600 hover:text-gray-800"
+                onClick={(e) => e.stopPropagation()}
               >
                 <GlobeAltIcon className="h-4 w-4 mr-1" />
                 Website

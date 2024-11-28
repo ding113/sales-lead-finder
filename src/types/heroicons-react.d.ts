@@ -5,6 +5,14 @@ declare module '@heroicons/react/solid' {
     export const LocationMarkerIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const OfficeBuildingIcon: React.FC<React.SVGProps<SVGSVGElement>>;
     export const GlobeAltIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const AdjustmentsIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const ChevronDownIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CodeIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const CalendarIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const UserGroupIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    export const ChipIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+    
     // 根据需要添加更多图标声明
 }
 

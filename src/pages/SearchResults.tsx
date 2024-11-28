@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
@@ -6,22 +6,27 @@ import FilterPanel from '../components/Filter/FilterPanel';
 import DistributorCard from '../components/Distributor/DistributorCard';
 import DistributorDetailsModal from '../components/Distributor/DistributorDetailsModal';
 import { SummaryModal } from '../components/AI/SummaryModal';
-import { Distributor, SearchFilters } from '../types';
+import { SearchFilters, Distributor } from '../types';
 import { mockDistributors } from '../mocks/distributors';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchService from '../services/search';
 import { useWishlist } from '../contexts/WishlistContext';
+import { debounce } from 'lodash';
+import VirtualizedResults from '../components/Search/VirtualizedResults';
+import { AdjustmentsIcon } from '@heroicons/react/solid';
 
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isInWishlist, addToWishlist } = useWishlist();
   const query = searchParams.get('q') || '';
-  
+
   const [showFilters, setShowFilters] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [results, setResults] = useState<Distributor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(20);
   const [filters, setFilters] = useState<SearchFilters>({
     industry: [],
     location: [],
@@ -31,20 +36,34 @@ const SearchResults: React.FC = () => {
   });
 
   const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
-
   const [selectedDistributor, setSelectedDistributor] = useState<Distributor | null>(null);
 
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((query: string) => {
+        setIsLoading(true);
+        const searchResults = searchService.search(query);
+        setResults(searchResults);
+        setCurrentPage(1);
+        setIsLoading(false);
+      }, 300),
+    [searchService]
+  );
+
   const handleSearch = useCallback((newQuery: string) => {
-    setIsLoading(true);
-    
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('q', newQuery);
     navigate(`/search?${newSearchParams.toString()}`, { replace: true });
+    debouncedSearch(newQuery);
+  }, [searchParams, navigate, debouncedSearch]);
 
-    const searchResults = searchService.search(newQuery);
-    setResults(searchResults);
-    setIsLoading(false);
-  }, [searchService, navigate, searchParams]);
+  const paginatedResults = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return results.slice(startIndex, endIndex);
+  }, [results, currentPage, pageSize]);
+
+  const totalPages = Math.ceil(results.length / pageSize);
 
   useEffect(() => {
     const query = searchParams.get('q') || '';
@@ -62,12 +81,14 @@ const SearchResults: React.FC = () => {
     handleSearch(query);
   }, [searchParams, handleSearch]);
 
-  const handleFilterChange = (newFilters: SearchFilters) => {
+  const handleFilterChange = useCallback((newFilters: SearchFilters) => {
     setFilters(newFilters);
-    const filtered = mockDistributors.filter((d) => {
+    setIsLoading(true);
+
+    const filtered = mockDistributors.filter((d: Distributor) => {
       const matchesIndustry =
         newFilters.industry.length === 0 ||
-        d.industry.some((i) => newFilters.industry.includes(i));
+        d.industry.some((i: string) => newFilters.industry.includes(i));
       const matchesLocation =
         newFilters.location.length === 0 ||
         newFilters.location.includes(d.location);
@@ -87,16 +108,32 @@ const SearchResults: React.FC = () => {
         matchesRating
       );
     });
+
     setResults(filtered);
+    setCurrentPage(1);
+    setIsLoading(false);
+  }, []);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleAddToWishlist = useCallback((distributor: Distributor) => {
+    addToWishlist(distributor);
+  }, [addToWishlist]);
+
+  const handleDistributorClick = useCallback((distributor: Distributor) => {
+    setSelectedDistributor(distributor);
+  }, []);
 
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
         <div className="sticky top-16 z-30 bg-white border-b border-gray-200 shadow-sm">
-          <div className="max-w-7xl mx-auto py-4">
+          <div className="max-w-6xl mx-auto py-4">
             <SearchBar
-              key={query} // 添加key属性以强制重新挂载
+              key={query}
               onSearch={handleSearch}
               onFilterToggle={() => setShowFilters(!showFilters)}
               initialQuery={query}
@@ -104,7 +141,7 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex gap-8">
             <FilterPanel
               isOpen={showFilters}
@@ -113,7 +150,7 @@ const SearchResults: React.FC = () => {
               onFilterChange={handleFilterChange}
             />
 
-            <div className="flex-1">
+            <div className="flex-1 overflow-hidden">
               {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[...Array(6)].map((_, i) => (
@@ -128,68 +165,89 @@ const SearchResults: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col flex-1 min-w-0">
-                  {/* Results section */}
-                  <div className="mt-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-4">
-                        <button
-                          onClick={() => setShowFilters(!showFilters)}
-                          className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                        >
-                          <svg className="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
-                          </svg>
-                          Filters
-                        </button>
-                        {results.length > 0 && (
-                          <button
-                            onClick={() => setShowSummary(true)}
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                            AI Analysis
-                          </button>
-                        )}
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        {results.length} results found
-                      </p>
+                <div className="flex flex-col flex-1 min-w-0 h-[calc(100vh-12rem)] overflow-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                      <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                      >
+                        <AdjustmentsIcon className="h-5 w-5 text-gray-400 mr-2" />
+                        Filters
+                      </button>
                     </div>
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                    >
-                      {results.map((distributor) => (
-                        <DistributorCard
-                          key={distributor.id}
-                          distributor={distributor}
-                          onAddToWishlist={() => addToWishlist(distributor)}
-                          isInWishlist={isInWishlist(distributor.id)}
-                          onClick={() => setSelectedDistributor(distributor)}
-                        />
-                      ))}
-                    </motion.div>
+                    <p className="text-sm text-gray-500">
+                      Showing {(currentPage - 1) * pageSize + 1} to{' '}
+                      {Math.min(currentPage * pageSize, results.length)} of{' '}
+                      {results.length} results
+                    </p>
                   </div>
+
+                  <VirtualizedResults
+                    items={paginatedResults}
+                    onDistributorClick={handleDistributorClick}
+                    onAddToWishlist={handleAddToWishlist}
+                    isInWishlist={isInWishlist}
+                    currentPage={currentPage}
+                  />
+
+                  {results.length > pageSize && (
+                    <div className="mt-6 flex justify-center">
+                      <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                        >
+                          Previous
+                        </button>
+                        {Array.from({ length: Math.min(5, totalPages) }).map((_, index) => {
+                          let pageNumber: number;
+                          if (totalPages <= 5) {
+                            pageNumber = index + 1;
+                          } else if (currentPage <= 3) {
+                            pageNumber = index + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNumber = totalPages - 4 + index;
+                          } else {
+                            pageNumber = currentPage - 2 + index;
+                          }
+
+                          return (
+                            <button
+                              key={pageNumber}
+                              onClick={() => handlePageChange(pageNumber)}
+                              className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                currentPage === pageNumber
+                                  ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
+                                  : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                              }`}
+                            >
+                              {pageNumber}
+                            </button>
+                          );
+                        })}
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                        >
+                          Next
+                        </button>
+                      </nav>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
       <DistributorDetailsModal
         distributor={selectedDistributor}
-        isOpen={selectedDistributor !== null}
+        isOpen={!!selectedDistributor}
         onClose={() => setSelectedDistributor(null)}
-      />
-      <SummaryModal
-        isOpen={showSummary}
-        onClose={() => setShowSummary(false)}
-        distributors={results}
       />
     </Layout>
   );
