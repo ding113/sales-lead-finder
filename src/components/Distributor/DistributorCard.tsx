@@ -8,12 +8,14 @@ interface DistributorCardProps {
   distributor: Distributor;
   onAddToWishlist: (id: string) => void;
   isInWishlist?: boolean;
+  onClick?: () => void;
 }
 
 const DistributorCard: React.FC<DistributorCardProps> = ({ 
   distributor, 
   onAddToWishlist,
-  isInWishlist = false 
+  isInWishlist = false,
+  onClick,
 }) => {
   const renderRating = (rating: number) => {
     return (
@@ -38,7 +40,8 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
+      className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer"
+      onClick={onClick}
     >
       <div className="p-6">
         <div className="flex justify-between items-start">

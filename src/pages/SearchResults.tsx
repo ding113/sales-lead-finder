@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import SearchBar from '../components/Search/SearchBar';
 import FilterPanel from '../components/Filter/FilterPanel';
 import DistributorCard from '../components/Distributor/DistributorCard';
+import DistributorDetailsModal from '../components/Distributor/DistributorDetailsModal';
 import { SummaryModal } from '../components/AI/SummaryModal';
 import { Distributor, SearchFilters } from '../types';
 import { mockDistributors } from '../mocks/distributors';
@@ -30,6 +31,8 @@ const SearchResults: React.FC = () => {
   });
 
   const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
+
+  const [selectedDistributor, setSelectedDistributor] = useState<Distributor | null>(null);
 
   const handleSearch = useCallback((newQuery: string) => {
     setIsLoading(true);
@@ -167,6 +170,7 @@ const SearchResults: React.FC = () => {
                           distributor={distributor}
                           onAddToWishlist={() => addToWishlist(distributor)}
                           isInWishlist={isInWishlist(distributor.id)}
+                          onClick={() => setSelectedDistributor(distributor)}
                         />
                       ))}
                     </motion.div>
@@ -177,7 +181,11 @@ const SearchResults: React.FC = () => {
           </div>
         </div>
       </div>
-
+      <DistributorDetailsModal
+        distributor={selectedDistributor}
+        isOpen={selectedDistributor !== null}
+        onClose={() => setSelectedDistributor(null)}
+      />
       <SummaryModal
         isOpen={showSummary}
         onClose={() => setShowSummary(false)}
