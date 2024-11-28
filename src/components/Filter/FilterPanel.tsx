@@ -90,36 +90,31 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-y-0 left-0 w-80 bg-white shadow-xl z-50 lg:relative lg:inset-auto lg:shadow-none flex flex-col"
-            style={{ maxHeight: 'calc(100vh - 200px)' }}
+            className="fixed inset-y-0 left-0 w-full sm:w-80 bg-white shadow-xl z-50 lg:relative lg:inset-auto lg:shadow-none flex flex-col overflow-hidden"
+            style={{ maxHeight: '100vh' }}
           >
             {/* Header */}
-            <div className="flex-shrink-0 p-4 border-b border-gray-200 flex justify-between items-center">
+            <div className="flex-shrink-0 p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
               <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
               <button
                 onClick={onClose}
-                className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+                className="p-2 rounded-md hover:bg-gray-100 active:bg-gray-200 touch-manipulation"
+                aria-label="Close filters"
               >
                 <XIcon className="h-5 w-5 text-gray-500" />
               </button>
             </div>
 
             {/* Scrollable Content */}
-            <div 
+            <div
               ref={contentRef}
-              className="flex-1 overflow-y-auto relative"
+              className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-6"
               style={{ 
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#CBD5E0 #F3F4F6'
               }}
             >
-              <style>
-                {`
-                  .filter-content::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}
-              </style>
               <div className="p-4 space-y-6">
                 {/* Industry Filter */}
                 <CategoryFilter

@@ -44,12 +44,12 @@ const Home: React.FC = () => {
           {/* 移除 overflow-hidden */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-400/5 to-primary-500/10 animate-gradient" />
           
-          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+              className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6"
             >
               Find Your Perfect
               <span className="text-primary-600"> Distributor</span>
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center text-xl text-gray-600 mb-12"
+              className="text-center text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 px-4"
             >
               Connect with trusted distributors worldwide using AI-powered matching
             </motion.p>
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="relative text-left"
+              className="relative text-left w-full max-w-2xl mx-auto"
             >
               <SearchBar 
                 onSearch={handleSearch}
@@ -81,7 +81,7 @@ const Home: React.FC = () => {
                 filters={searchFilters}
                 onFilterChange={setSearchFilters}
                 onApply={() => {
-                  // 可以在这里添加额外的处理逻辑
+                  setShowFilters(false);
                 }}
               />
             </motion.div>
@@ -89,13 +89,13 @@ const Home: React.FC = () => {
         </section>
 
         {/* Features Section */}
-        <section className="py-24 bg-gray-50">
+        <section className="py-12 sm:py-16 md:py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <div className="text-center mb-8 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
                 Why Choose SalesLeadFinder
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4">
                 Advanced features to streamline your distributor search
               </p>
             </div>
