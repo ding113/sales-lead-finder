@@ -29,12 +29,14 @@ SalesLeadFinder is an innovative B2B platform designed to help foreign trade ent
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/ding113/sales-lead-finder.git
 cd sales-lead-finder
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -42,6 +44,7 @@ yarn install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run start
 # or

@@ -1,17 +1,14 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { XIcon, HeartIcon } from '@heroicons/react/outline';
-import { useWishlist } from '../../contexts/WishlistContext';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { XIcon, HeartIcon } from "@heroicons/react/outline";
+import { useWishlist } from "../../contexts/WishlistContext";
 
 interface WishlistDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
-  isOpen,
-  onClose,
-}) => {
+const WishlistDrawer: React.FC<WishlistDrawerProps> = ({ isOpen, onClose }) => {
   const { wishlistItems, removeFromWishlist } = useWishlist(); // 使用 useWishlist 钩子
 
   return (
@@ -29,17 +26,19 @@ const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: '100%' }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
             className="fixed inset-y-0 right-0 w-96 bg-white shadow-xl z-50"
           >
             <div className="h-full flex flex-col">
               <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                   <HeartIcon className="h-5 w-5 text-primary-600" />
-                  <h2 className="text-lg font-semibold text-gray-900">Wishlist</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    Wishlist
+                  </h2>
                   <span className="bg-primary-100 text-primary-600 text-sm font-medium px-2.5 py-0.5 rounded-full">
                     {wishlistItems.length}
                   </span>

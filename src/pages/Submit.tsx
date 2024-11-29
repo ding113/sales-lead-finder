@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
 import {
   Camera,
   Building2,
@@ -14,45 +14,49 @@ import {
   Calendar,
   ChevronRight,
   Loader2,
-  CheckCircle2
-} from 'lucide-react';
-import { mockIndustries, mockLocations, mockCompanySizes } from '../mocks/distributors';
+  CheckCircle2,
+} from "lucide-react";
+import {
+  mockIndustries,
+  mockLocations,
+  mockCompanySizes,
+} from "../mocks/distributors";
 
 const Submit: React.FC = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    companyName: '',
-    description: '',
-    location: '',
+    companyName: "",
+    description: "",
+    location: "",
     industry: [] as string[],
     establishedYear: new Date().getFullYear(),
-    companySize: '',
+    companySize: "",
     contact: {
-      email: '',
-      phone: '',
-      website: ''
+      email: "",
+      phone: "",
+      website: "",
     },
     tags: [],
-    logo: null
+    logo: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleContactChange = (field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       contact: {
         ...prev.contact,
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -62,13 +66,13 @@ const Submit: React.FC = () => {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       setShowSuccess(true);
       setTimeout(() => {
-        navigate('/'); // Redirect to home page after successful submission
+        navigate("/"); // Redirect to home page after successful submission
       }, 2000);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -82,7 +86,9 @@ const Submit: React.FC = () => {
             <div className="flex items-center justify-center relative z-10 w-full">
               <motion.div
                 className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  num <= step ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-600'
+                  num <= step
+                    ? "bg-primary-600 text-white"
+                    : "bg-gray-200 text-gray-600"
                 }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -91,9 +97,11 @@ const Submit: React.FC = () => {
                 {num}
               </motion.div>
               {num < 3 && (
-                <div className={`absolute top-5 left-1/2 w-full h-1 -z-10 ${
-                  num < step ? 'bg-primary-600' : 'bg-gray-200'
-                }`} />
+                <div
+                  className={`absolute top-5 left-1/2 w-full h-1 -z-10 ${
+                    num < step ? "bg-primary-600" : "bg-gray-200"
+                  }`}
+                />
               )}
             </div>
           </div>
@@ -138,7 +146,7 @@ const Submit: React.FC = () => {
               className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl text-white"
               onClick={() => {
                 // In demo, use a placeholder image
-                handleInputChange('logo', '/api/placeholder/128/128');
+                handleInputChange("logo", "/api/placeholder/128/128");
               }}
             >
               Upload Logo
@@ -153,7 +161,7 @@ const Submit: React.FC = () => {
           <input
             type="text"
             value={formData.companyName}
-            onChange={(e) => handleInputChange('companyName', e.target.value)}
+            onChange={(e) => handleInputChange("companyName", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder="Enter your company name"
             required
@@ -166,7 +174,7 @@ const Submit: React.FC = () => {
           </label>
           <textarea
             value={formData.description}
-            onChange={(e) => handleInputChange('description', e.target.value)}
+            onChange={(e) => handleInputChange("description", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent h-32"
             placeholder="Describe your company and its core business..."
             required
@@ -203,13 +211,15 @@ const Submit: React.FC = () => {
           </label>
           <select
             value={formData.location}
-            onChange={(e) => handleInputChange('location', e.target.value)}
+            onChange={(e) => handleInputChange("location", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             required
           >
             <option value="">Select location</option>
-            {mockLocations.map(location => (
-              <option key={location} value={location}>{location}</option>
+            {mockLocations.map((location) => (
+              <option key={location} value={location}>
+                {location}
+              </option>
             ))}
           </select>
         </div>
@@ -220,13 +230,15 @@ const Submit: React.FC = () => {
           </label>
           <select
             value={formData.companySize}
-            onChange={(e) => handleInputChange('companySize', e.target.value)}
+            onChange={(e) => handleInputChange("companySize", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             required
           >
             <option value="">Select size</option>
-            {mockCompanySizes.map(size => (
-              <option key={size} value={size}>{size}</option>
+            {mockCompanySizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
             ))}
           </select>
         </div>
@@ -237,7 +249,7 @@ const Submit: React.FC = () => {
           Industries *
         </label>
         <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto p-2 border border-gray-300 rounded-lg">
-          {mockIndustries.map(industry => (
+          {mockIndustries.map((industry) => (
             <label key={industry} className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -245,8 +257,8 @@ const Submit: React.FC = () => {
                 onChange={(e) => {
                   const newIndustries = e.target.checked
                     ? [...formData.industry, industry]
-                    : formData.industry.filter(i => i !== industry);
-                  handleInputChange('industry', newIndustries);
+                    : formData.industry.filter((i) => i !== industry);
+                  handleInputChange("industry", newIndustries);
                 }}
                 className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
               />
@@ -271,7 +283,7 @@ const Submit: React.FC = () => {
                 onClick={() => {
                   const newTags = [...formData.tags];
                   newTags.splice(index, 1);
-                  handleInputChange('tags', newTags);
+                  handleInputChange("tags", newTags);
                 }}
                 className="hover:text-primary-800"
               >
@@ -286,10 +298,13 @@ const Submit: React.FC = () => {
             placeholder="Add a tag"
             className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             onKeyPress={(e) => {
-              if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+              if (e.key === "Enter" && e.currentTarget.value.trim()) {
                 e.preventDefault();
-                handleInputChange('tags', [...formData.tags, e.currentTarget.value.trim()]);
-                e.currentTarget.value = '';
+                handleInputChange("tags", [
+                  ...formData.tags,
+                  e.currentTarget.value.trim(),
+                ]);
+                e.currentTarget.value = "";
               }
             }}
           />
@@ -310,7 +325,11 @@ const Submit: React.FC = () => {
           whileTap={{ scale: 0.98 }}
           className="px-6 py-2 bg-primary-600 text-white rounded-lg flex items-center space-x-2"
           onClick={() => setStep(3)}
-          disabled={!formData.location || !formData.companySize || formData.industry.length === 0}
+          disabled={
+            !formData.location ||
+            !formData.companySize ||
+            formData.industry.length === 0
+          }
         >
           <span>Next</span>
           <ChevronRight className="w-4 h-4" />
@@ -334,7 +353,7 @@ const Submit: React.FC = () => {
           <input
             type="email"
             value={formData.contact.email}
-            onChange={(e) => handleContactChange('email', e.target.value)}
+            onChange={(e) => handleContactChange("email", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder="contact@company.com"
             required
@@ -348,7 +367,7 @@ const Submit: React.FC = () => {
           <input
             type="tel"
             value={formData.contact.phone}
-            onChange={(e) => handleContactChange('phone', e.target.value)}
+            onChange={(e) => handleContactChange("phone", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder="+1 234 567 890"
             required
@@ -363,23 +382,41 @@ const Submit: React.FC = () => {
         <input
           type="url"
           value={formData.contact.website}
-          onChange={(e) => handleContactChange('website', e.target.value)}
+          onChange={(e) => handleContactChange("website", e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           placeholder="https://www.company.com"
         />
       </div>
 
       <div className="pt-6 border-t border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Review Your Information</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">
+          Review Your Information
+        </h3>
         <div className="grid grid-cols-2 gap-4">
-          <InfoItem icon={Building2} label="Company" value={formData.companyName} />
+          <InfoItem
+            icon={Building2}
+            label="Company"
+            value={formData.companyName}
+          />
           <InfoItem icon={MapPin} label="Location" value={formData.location} />
           <InfoItem icon={Users} label="Size" value={formData.companySize} />
-          <InfoItem icon={Calendar} label="Established" value={formData.establishedYear.toString()} />
-          <InfoItem icon={Globe} label="Industries" value={formData.industry.join(', ')} />
+          <InfoItem
+            icon={Calendar}
+            label="Established"
+            value={formData.establishedYear.toString()}
+          />
+          <InfoItem
+            icon={Globe}
+            label="Industries"
+            value={formData.industry.join(", ")}
+          />
           <InfoItem icon={Mail} label="Email" value={formData.contact.email} />
           <InfoItem icon={Phone} label="Phone" value={formData.contact.phone} />
-          <InfoItem icon={LinkIcon} label="Website" value={formData.contact.website} />
+          <InfoItem
+            icon={LinkIcon}
+            label="Website"
+            value={formData.contact.website}
+          />
         </div>
       </div>
 
@@ -428,7 +465,15 @@ const Submit: React.FC = () => {
     </motion.div>
   );
 
-  const InfoItem = ({ icon: Icon, label, value }: { icon: any, label: string, value: string }) => (
+  const InfoItem = ({
+    icon: Icon,
+    label,
+    value,
+  }: {
+    icon: any;
+    label: string;
+    value: string;
+  }) => (
     <div className="flex items-center space-x-2">
       <Icon className="w-5 h-5 text-gray-500" />
       <div className="flex-1">
@@ -441,7 +486,9 @@ const Submit: React.FC = () => {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto py-12 px-6">
-        <h1 className="text-3xl font-bold text-center mb-8">Submit Your Distributor Information</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          Submit Your Distributor Information
+        </h1>
         {renderStepIndicator()}
         <form>
           {step === 1 && renderStep1()}

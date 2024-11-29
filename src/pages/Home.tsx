@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
-import SearchBar from '../components/Search/SearchBar';
-import { SearchFilters } from '../types';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
+import SearchBar from "../components/Search/SearchBar";
+import { SearchFilters } from "../types";
 // import { mockIndustries, mockLocations, mockCompanySizes } from '../mocks/distributors';
-import HomeFilterPanel from '../components/Search/HomeFilterPanel';
+import HomeFilterPanel from "../components/Search/HomeFilterPanel";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -14,26 +14,26 @@ const Home: React.FC = () => {
     location: [],
     companySize: [],
     establishedYear: { min: 1900, max: 2024 },
-    rating: 0
+    rating: 0,
   });
-  
+
   // 添加显示筛选器的状态管理
   const [showFilters, setShowFilters] = useState(false);
 
   const handleSearch = (query: string) => {
     const queryParams = new URLSearchParams();
-    queryParams.set('q', query);
-    
+    queryParams.set("q", query);
+
     if (searchFilters.industry.length) {
-      queryParams.set('industry', searchFilters.industry.join(','));
+      queryParams.set("industry", searchFilters.industry.join(","));
     }
     if (searchFilters.location.length) {
-      queryParams.set('location', searchFilters.location.join(','));
+      queryParams.set("location", searchFilters.location.join(","));
     }
     if (searchFilters.companySize.length) {
-      queryParams.set('size', searchFilters.companySize.join(','));
+      queryParams.set("size", searchFilters.companySize.join(","));
     }
-    
+
     navigate(`/search?${queryParams.toString()}`);
   };
 
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         <section className="relative h-[70vh] flex items-center justify-center">
           {/* 移除 overflow-hidden */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-primary-400/5 to-primary-500/10 animate-gradient" />
-          
+
           <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -54,14 +54,15 @@ const Home: React.FC = () => {
               Find Your Perfect
               <span className="text-primary-600"> Distributor</span>
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-center text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 px-4"
             >
-              Connect with trusted distributors worldwide using AI-powered matching
+              Connect with trusted distributors worldwide using AI-powered
+              matching
             </motion.p>
 
             <motion.div
@@ -70,11 +71,11 @@ const Home: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="relative text-left w-full max-w-2xl mx-auto"
             >
-              <SearchBar 
+              <SearchBar
                 onSearch={handleSearch}
                 onFilterToggle={() => setShowFilters(!showFilters)}
               />
-              
+
               <HomeFilterPanel
                 isOpen={showFilters}
                 onClose={() => setShowFilters(false)}
@@ -103,20 +104,23 @@ const Home: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'AI-Powered Matching',
-                  description: 'Our intelligent algorithm finds the perfect distributors based on your specific needs',
-                  icon: '🤖'
+                  title: "AI-Powered Matching",
+                  description:
+                    "Our intelligent algorithm finds the perfect distributors based on your specific needs",
+                  icon: "🤖",
                 },
                 {
-                  title: 'Verified Partners',
-                  description: 'All distributors are thoroughly vetted to ensure reliability and quality',
-                  icon: '✓'
+                  title: "Verified Partners",
+                  description:
+                    "All distributors are thoroughly vetted to ensure reliability and quality",
+                  icon: "✓",
                 },
                 {
-                  title: 'Global Network',
-                  description: 'Access to distributors across all major markets worldwide',
-                  icon: '🌍'
-                }
+                  title: "Global Network",
+                  description:
+                    "Access to distributors across all major markets worldwide",
+                  icon: "🌍",
+                },
               ].map((feature, index) => (
                 <motion.div
                   key={index}
@@ -129,9 +133,7 @@ const Home: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
-                    {feature.description}
-                  </p>
+                  <p className="text-gray-600">{feature.description}</p>
                 </motion.div>
               ))}
             </div>

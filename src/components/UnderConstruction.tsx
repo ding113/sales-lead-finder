@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Construction, Rocket } from 'lucide-react';
-import Layout from './Layout';
+import React from "react";
+import { motion } from "framer-motion";
+import { Construction, Rocket } from "lucide-react";
+import Layout from "./Layout";
 
 interface UnderConstructionProps {
   title: string;
@@ -45,13 +45,13 @@ const UnderConstruction: React.FC<UnderConstructionProps> = ({
             >
               <div className="flex items-center justify-center mb-4">
                 <Rocket className="w-6 h-6 text-primary-600 mr-2" />
-                <h2 className="text-xl font-semibold text-primary-900">Our Vision</h2>
+                <h2 className="text-xl font-semibold text-primary-900">
+                  Our Vision
+                </h2>
               </div>
               <p className="text-primary-800">{vision}</p>
             </motion.div>
           )}
-
-
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -63,11 +63,13 @@ const UnderConstruction: React.FC<UnderConstructionProps> = ({
               <motion.div
                 className="h-full bg-primary-500"
                 initial={{ width: 0 }}
-                animate={{ width: '30%' }}
+                animate={{ width: "30%" }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
               />
             </div>
-            <p className="mt-2 text-sm text-gray-600">Development in progress</p>
+            <p className="mt-2 text-sm text-gray-600">
+              Development in progress
+            </p>
           </motion.div>
         </motion.div>
       </div>

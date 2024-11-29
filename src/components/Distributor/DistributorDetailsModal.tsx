@@ -1,8 +1,15 @@
-import React from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import { XIcon, GlobeAltIcon, MailIcon, PhoneIcon, CalendarIcon, UserGroupIcon } from '@heroicons/react/outline';
-import { Distributor } from '../../types';
+import React from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import {
+  XIcon,
+  GlobeAltIcon,
+  MailIcon,
+  PhoneIcon,
+  CalendarIcon,
+  UserGroupIcon,
+} from "@heroicons/react/outline";
+import { Distributor } from "../../types";
 
 interface DistributorDetailsModalProps {
   distributor: Distributor | null;
@@ -10,11 +17,9 @@ interface DistributorDetailsModalProps {
   onClose: () => void;
 }
 
-export const DistributorDetailsModal: React.FC<DistributorDetailsModalProps> = ({
-  distributor,
-  isOpen,
-  onClose,
-}) => {
+export const DistributorDetailsModal: React.FC<
+  DistributorDetailsModalProps
+> = ({ distributor, isOpen, onClose }) => {
   if (!distributor) return null;
 
   return (
@@ -55,7 +60,10 @@ export const DistributorDetailsModal: React.FC<DistributorDetailsModalProps> = (
                 </div>
 
                 {/* Header */}
-                <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 mb-4">
+                <Dialog.Title
+                  as="h3"
+                  className="text-2xl font-semibold leading-6 text-gray-900 mb-4"
+                >
                   {distributor.companyName}
                 </Dialog.Title>
 
@@ -108,7 +116,9 @@ export const DistributorDetailsModal: React.FC<DistributorDetailsModalProps> = (
 
                 {/* Contact Information */}
                 <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-3">Contact Information</h4>
+                  <h4 className="text-lg font-medium mb-3">
+                    Contact Information
+                  </h4>
                   <div className="space-y-3">
                     <a
                       href={`mailto:${distributor.contact.email}`}

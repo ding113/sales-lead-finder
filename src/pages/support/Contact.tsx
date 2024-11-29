@@ -1,5 +1,5 @@
-import React from 'react';
-import UnderConstruction from '../../components/UnderConstruction';
+import React from "react";
+import UnderConstruction from "../../components/UnderConstruction";
 
 const Contact: React.FC = () => {
   return (

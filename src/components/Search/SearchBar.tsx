@@ -1,7 +1,10 @@
-import React, { useState, KeyboardEvent, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline';
-import { getRandomSuggestions, filterSuggestions } from '../../mocks/searchSuggestions';
+import React, { useState, KeyboardEvent, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { SearchIcon, AdjustmentsIcon } from "@heroicons/react/outline";
+import {
+  getRandomSuggestions,
+  filterSuggestions,
+} from "../../mocks/searchSuggestions";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -13,8 +16,8 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   onFilterToggle,
-  initialQuery = '',
-  className = ''
+  initialQuery = "",
+  className = "",
 }) => {
   const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
@@ -43,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -61,19 +64,25 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className={`w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div
+      className={`w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="relative"
       >
-        <div className={`
+        <div
+          className={`
           relative flex items-center h-14 rounded-2xl
-          ${isFocused
-            ? 'ring-2 ring-primary-500 bg-white shadow-lg'
-            : 'bg-white/90 shadow-md hover:shadow-lg transition-shadow'}
-        `}>
+          ${
+            isFocused
+              ? "ring-2 ring-primary-500 bg-white shadow-lg"
+              : "bg-white/90 shadow-md hover:shadow-lg transition-shadow"
+          }
+        `}
+        >
           <input
             type="text"
             value={query}
@@ -91,7 +100,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             placeholder="Search for distributors, industries, or locations..."
             className="flex-1 h-full pl-4 bg-transparent border-none focus:ring-0 text-gray-900 placeholder-gray-400"
           />
-          
+
           <div className="flex items-center h-full pr-2">
             <button
               onClick={handleSearch}
@@ -126,7 +135,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 >
                   <SearchIcon className="w-4 h-4 text-gray-400 group-hover:text-primary-500 mr-3" />
                   <div className="flex-1">
-                    <span className="text-gray-700 group-hover:text-gray-900">{suggestion}</span>
+                    <span className="text-gray-700 group-hover:text-gray-900">
+                      {suggestion}
+                    </span>
                   </div>
                 </div>
               ))}

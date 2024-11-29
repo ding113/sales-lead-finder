@@ -1,4 +1,4 @@
-import { Category } from '../types';
+import { Category } from "../types";
 
 export const industryCategories: Category[] = [
   {
@@ -9,8 +9,8 @@ export const industryCategories: Category[] = [
       { label: "Electronics", value: "electronics" },
       { label: "Technology", value: "technology" },
       { label: "Nanotechnology", value: "nanotechnology" },
-      { label: "Space", value: "space" }
-    ]
+      { label: "Space", value: "space" },
+    ],
   },
   {
     label: "Healthcare & Life Sciences",
@@ -19,8 +19,8 @@ export const industryCategories: Category[] = [
       { label: "Healthcare", value: "healthcare" },
       { label: "Pharmaceutical", value: "pharmaceutical" },
       { label: "Biotechnology", value: "biotechnology" },
-      { label: "Fitness", value: "fitness" }
-    ]
+      { label: "Fitness", value: "fitness" },
+    ],
   },
   {
     label: "Industrial & Manufacturing",
@@ -30,8 +30,8 @@ export const industryCategories: Category[] = [
       { label: "Manufacturing", value: "manufacturing" },
       { label: "Construction", value: "construction" },
       { label: "Chemical", value: "chemical" },
-      { label: "Energy", value: "energy" }
-    ]
+      { label: "Energy", value: "energy" },
+    ],
   },
   {
     label: "Consumer & Retail",
@@ -42,8 +42,8 @@ export const industryCategories: Category[] = [
       { label: "Food & Beverage", value: "food-beverage" },
       { label: "Fashion", value: "fashion" },
       { label: "Cosmetics", value: "cosmetics" },
-      { label: "Luxury", value: "luxury" }
-    ]
+      { label: "Luxury", value: "luxury" },
+    ],
   },
   {
     label: "Transportation & Logistics",
@@ -51,8 +51,8 @@ export const industryCategories: Category[] = [
     subCategories: [
       { label: "Transportation", value: "transportation" },
       { label: "Automotive", value: "automotive" },
-      { label: "Travel", value: "travel" }
-    ]
+      { label: "Travel", value: "travel" },
+    ],
   },
   {
     label: "Other Industries",
@@ -61,9 +61,9 @@ export const industryCategories: Category[] = [
       { label: "Agriculture", value: "agriculture" },
       { label: "Media", value: "media" },
       { label: "Textiles", value: "textiles" },
-      { label: "Lighting", value: "lighting" }
-    ]
-  }
+      { label: "Lighting", value: "lighting" },
+    ],
+  },
 ];
 
 export const locationCategories: Category[] = [
@@ -77,8 +77,8 @@ export const locationCategories: Category[] = [
       { label: "Singapore", value: "singapore" },
       { label: "India", value: "india" },
       { label: "Australia", value: "australia" },
-      { label: "Thailand", value: "thailand" }
-    ]
+      { label: "Thailand", value: "thailand" },
+    ],
   },
   {
     label: "Europe",
@@ -95,8 +95,8 @@ export const locationCategories: Category[] = [
       { label: "Finland", value: "finland" },
       { label: "Denmark", value: "denmark" },
       { label: "Norway", value: "norway" },
-      { label: "Russia", value: "russia" }
-    ]
+      { label: "Russia", value: "russia" },
+    ],
   },
   {
     label: "Americas",
@@ -105,8 +105,8 @@ export const locationCategories: Category[] = [
       { label: "United States", value: "united-states" },
       { label: "Canada", value: "canada" },
       { label: "Brazil", value: "brazil" },
-      { label: "Argentina", value: "argentina" }
-    ]
+      { label: "Argentina", value: "argentina" },
+    ],
   },
   {
     label: "Middle East & Africa",
@@ -115,7 +115,7 @@ export const locationCategories: Category[] = [
       { label: "United Arab Emirates", value: "united-arab-emirates" },
       { label: "Israel", value: "israel" },
       { label: "Turkey", value: "turkey" },
-      { label: "South Africa", value: "south-africa" }
-    ]
-  }
+      { label: "South Africa", value: "south-africa" },
+    ],
+  },
 ];

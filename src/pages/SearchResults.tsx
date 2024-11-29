@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import Layout from '../components/Layout';
-import SearchBar from '../components/Search/SearchBar';
-import FilterPanel from '../components/Filter/FilterPanel';
-import DistributorCard from '../components/Distributor/DistributorCard';
-import DistributorDetailsModal from '../components/Distributor/DistributorDetailsModal';
-import { SummaryModal } from '../components/AI/SummaryModal';
-import { SearchFilters, Distributor } from '../types';
-import { mockDistributors } from '../mocks/distributors';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import SearchService from '../services/search';
-import { useWishlist } from '../contexts/WishlistContext';
-import { debounce } from 'lodash';
-import VirtualizedResults from '../components/Search/VirtualizedResults';
-import { AdjustmentsIcon } from '@heroicons/react/solid';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { motion } from "framer-motion";
+import Layout from "../components/Layout";
+import SearchBar from "../components/Search/SearchBar";
+import FilterPanel from "../components/Filter/FilterPanel";
+import DistributorCard from "../components/Distributor/DistributorCard";
+import DistributorDetailsModal from "../components/Distributor/DistributorDetailsModal";
+import { SummaryModal } from "../components/AI/SummaryModal";
+import { SearchFilters, Distributor } from "../types";
+import { mockDistributors } from "../mocks/distributors";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import SearchService from "../services/search";
+import { useWishlist } from "../contexts/WishlistContext";
+import { debounce } from "lodash";
+import VirtualizedResults from "../components/Search/VirtualizedResults";
+import { AdjustmentsIcon } from "@heroicons/react/solid";
 
 const SearchResults: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isInWishlist, addToWishlist } = useWishlist();
-  const query = searchParams.get('q') || '';
+  const query = searchParams.get("q") || "";
 
   const [showFilters, setShowFilters] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
@@ -35,8 +35,11 @@ const SearchResults: React.FC = () => {
     rating: 0,
   });
 
-  const [searchService] = useState(() => SearchService.getInstance(mockDistributors));
-  const [selectedDistributor, setSelectedDistributor] = useState<Distributor | null>(null);
+  const [searchService] = useState(() =>
+    SearchService.getInstance(mockDistributors),
+  );
+  const [selectedDistributor, setSelectedDistributor] =
+    useState<Distributor | null>(null);
 
   const debouncedSearch = useMemo(
     () =>
@@ -47,15 +50,18 @@ const SearchResults: React.FC = () => {
         setCurrentPage(1);
         setIsLoading(false);
       }, 300),
-    [searchService]
+    [searchService],
   );
 
-  const handleSearch = useCallback((newQuery: string) => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('q', newQuery);
-    navigate(`/search?${newSearchParams.toString()}`, { replace: true });
-    debouncedSearch(newQuery);
-  }, [searchParams, navigate, debouncedSearch]);
+  const handleSearch = useCallback(
+    (newQuery: string) => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set("q", newQuery);
+      navigate(`/search?${newSearchParams.toString()}`, { replace: true });
+      debouncedSearch(newQuery);
+    },
+    [searchParams, navigate, debouncedSearch],
+  );
 
   const paginatedResults = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
@@ -66,16 +72,16 @@ const SearchResults: React.FC = () => {
   const totalPages = Math.ceil(results.length / pageSize);
 
   useEffect(() => {
-    const query = searchParams.get('q') || '';
-    const industry = searchParams.get('industry')?.split(',') || [];
-    const location = searchParams.get('location')?.split(',') || [];
-    const size = searchParams.get('size')?.split(',') || [];
+    const query = searchParams.get("q") || "";
+    const industry = searchParams.get("industry")?.split(",") || [];
+    const location = searchParams.get("location")?.split(",") || [];
+    const size = searchParams.get("size")?.split(",") || [];
 
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
       industry,
       location,
-      companySize: size
+      companySize: size,
     }));
 
     handleSearch(query);
@@ -116,12 +122,15 @@ const SearchResults: React.FC = () => {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleAddToWishlist = useCallback((distributor: Distributor) => {
-    addToWishlist(distributor);
-  }, [addToWishlist]);
+  const handleAddToWishlist = useCallback(
+    (distributor: Distributor) => {
+      addToWishlist(distributor);
+    },
+    [addToWishlist],
+  );
 
   const handleDistributorClick = useCallback((distributor: Distributor) => {
     setSelectedDistributor(distributor);
@@ -179,17 +188,40 @@ const SearchResults: React.FC = () => {
                         onClick={() => setShowSummary(true)}
                         className="inline-flex items-center px-4 py-2 border-0 rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
                       >
-                        <svg className="h-5 w-5 mr-2 animate-pulse" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <svg
+                          className="h-5 w-5 mr-2 animate-pulse"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2L2 7L12 12L22 7L12 2Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 17L12 22L22 17"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 12L12 17L22 12"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                         AI Summary
                       </button>
                     </div>
                     <p className="text-sm text-gray-500">
-                      Showing {(currentPage - 1) * pageSize + 1} to{' '}
-                      {Math.min(currentPage * pageSize, results.length)} of{' '}
+                      Showing {(currentPage - 1) * pageSize + 1} to{" "}
+                      {Math.min(currentPage * pageSize, results.length)} of{" "}
                       {results.length} results
                     </p>
                   </div>
@@ -212,32 +244,34 @@ const SearchResults: React.FC = () => {
                         >
                           Previous
                         </button>
-                        {Array.from({ length: Math.min(5, totalPages) }).map((_, index) => {
-                          let pageNumber: number;
-                          if (totalPages <= 5) {
-                            pageNumber = index + 1;
-                          } else if (currentPage <= 3) {
-                            pageNumber = index + 1;
-                          } else if (currentPage >= totalPages - 2) {
-                            pageNumber = totalPages - 4 + index;
-                          } else {
-                            pageNumber = currentPage - 2 + index;
-                          }
+                        {Array.from({ length: Math.min(5, totalPages) }).map(
+                          (_, index) => {
+                            let pageNumber: number;
+                            if (totalPages <= 5) {
+                              pageNumber = index + 1;
+                            } else if (currentPage <= 3) {
+                              pageNumber = index + 1;
+                            } else if (currentPage >= totalPages - 2) {
+                              pageNumber = totalPages - 4 + index;
+                            } else {
+                              pageNumber = currentPage - 2 + index;
+                            }
 
-                          return (
-                            <button
-                              key={pageNumber}
-                              onClick={() => handlePageChange(pageNumber)}
-                              className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                currentPage === pageNumber
-                                  ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
-                                  : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                              }`}
-                            >
-                              {pageNumber}
-                            </button>
-                          );
-                        })}
+                            return (
+                              <button
+                                key={pageNumber}
+                                onClick={() => handlePageChange(pageNumber)}
+                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                  currentPage === pageNumber
+                                    ? "z-10 bg-primary-50 border-primary-500 text-primary-600"
+                                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                }`}
+                              >
+                                {pageNumber}
+                              </button>
+                            );
+                          },
+                        )}
                         <button
                           onClick={() => handlePageChange(currentPage + 1)}
                           disabled={currentPage === totalPages}

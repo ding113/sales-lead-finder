@@ -1,9 +1,13 @@
 // src/components/Search/HomeFilterPanel.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { XIcon } from '@heroicons/react/outline';
-import { SearchFilters } from '../../types';
-import { mockIndustries, mockLocations, mockCompanySizes } from '../../mocks/distributors';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { XIcon } from "@heroicons/react/outline";
+import { SearchFilters } from "../../types";
+import {
+  mockIndustries,
+  mockLocations,
+  mockCompanySizes,
+} from "../../mocks/distributors";
 
 interface HomeFilterPanelProps {
   isOpen: boolean;
@@ -25,17 +29,20 @@ const HomeFilterPanel: React.FC<HomeFilterPanelProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
@@ -70,7 +77,7 @@ const HomeFilterPanel: React.FC<HomeFilterPanelProps> = ({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 right-10 w-96 bg-white rounded-xl shadow-xl z-[101] overflow-hidden" 
+            className="fixed top-20 right-10 w-96 bg-white rounded-xl shadow-xl z-[101] overflow-hidden"
           >
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
               <h3 className="text-lg font-semibold text-gray-900">

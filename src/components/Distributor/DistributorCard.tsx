@@ -1,8 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { StarIcon, LocationMarkerIcon, OfficeBuildingIcon, GlobeAltIcon } from '@heroicons/react/solid';
-import { HeartIcon } from '@heroicons/react/outline';
-import { Distributor } from '../../types';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  StarIcon,
+  LocationMarkerIcon,
+  OfficeBuildingIcon,
+  GlobeAltIcon,
+} from "@heroicons/react/solid";
+import { HeartIcon } from "@heroicons/react/outline";
+import { Distributor } from "../../types";
 
 interface DistributorCardProps {
   distributor: Distributor;
@@ -11,8 +16,8 @@ interface DistributorCardProps {
   onClick?: () => void;
 }
 
-const DistributorCard: React.FC<DistributorCardProps> = ({ 
-  distributor, 
+const DistributorCard: React.FC<DistributorCardProps> = ({
+  distributor,
   onAddToWishlist,
   isInWishlist = false,
   onClick,
@@ -24,9 +29,7 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
           <StarIcon
             key={index}
             className={`h-4 w-4 ${
-              index < Math.floor(rating)
-                ? 'text-yellow-400'
-                : 'text-gray-300'
+              index < Math.floor(rating) ? "text-yellow-400" : "text-gray-300"
             }`}
           />
         ))}
@@ -57,13 +60,13 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
               onAddToWishlist(distributor.id);
             }}
             className={`p-2 rounded-full ${
-              isInWishlist 
-                ? 'bg-primary-50 text-primary-600' 
-                : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+              isInWishlist
+                ? "bg-primary-50 text-primary-600"
+                : "bg-gray-50 text-gray-400 hover:bg-gray-100"
             }`}
           >
-            <HeartIcon 
-              className={`h-5 w-5 ${isInWishlist ? 'fill-current' : ''}`}
+            <HeartIcon
+              className={`h-5 w-5 ${isInWishlist ? "fill-current" : ""}`}
             />
           </button>
         </div>
@@ -104,7 +107,7 @@ const DistributorCard: React.FC<DistributorCardProps> = ({
               >
                 Contact
               </a>
-              
+
               <a
                 href={distributor.contact.website}
                 target="_blank"

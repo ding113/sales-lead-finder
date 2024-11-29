@@ -8,13 +8,13 @@ declare module '@heroicons/react/outline' {
 }
 */
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { XIcon } from '@heroicons/react/outline';
-import { SearchFilters } from '../../types';
-import { industryCategories, locationCategories } from '../../mocks/categories';
-import { mockCompanySizes } from '../../mocks/distributors';
-import CategoryFilter from './CategoryFilter';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { XIcon } from "@heroicons/react/outline";
+import { SearchFilters } from "../../types";
+import { industryCategories, locationCategories } from "../../mocks/categories";
+import { mockCompanySizes } from "../../mocks/distributors";
+import CategoryFilter from "./CategoryFilter";
 
 interface FilterPanelProps {
   isOpen: boolean;
@@ -43,20 +43,23 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     const checkScroll = () => {
       if (contentRef.current) {
         const { scrollHeight, clientHeight, scrollTop } = contentRef.current;
-        setShowGradient(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight);
+        setShowGradient(
+          scrollHeight > clientHeight &&
+            scrollTop < scrollHeight - clientHeight,
+        );
       }
     };
 
     const contentElement = contentRef.current;
     if (contentElement) {
-      contentElement.addEventListener('scroll', checkScroll);
+      contentElement.addEventListener("scroll", checkScroll);
       // 初始检查
       checkScroll();
     }
 
     return () => {
       if (contentElement) {
-        contentElement.removeEventListener('scroll', checkScroll);
+        contentElement.removeEventListener("scroll", checkScroll);
       }
     };
   }, [isOpen]);
@@ -86,12 +89,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Filter Panel */}
           <motion.div
-            initial={{ x: '-100%' }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
             className="fixed inset-y-0 left-0 w-full sm:w-80 bg-white shadow-xl z-50 lg:relative lg:inset-auto lg:shadow-none flex flex-col overflow-hidden"
-            style={{ maxHeight: '100vh' }}
+            style={{ maxHeight: "100vh" }}
           >
             {/* Header */}
             <div className="flex-shrink-0 p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
@@ -109,10 +112,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             <div
               ref={contentRef}
               className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-6"
-              style={{ 
-                WebkitOverflowScrolling: 'touch',
-                scrollbarWidth: 'thin',
-                scrollbarColor: '#CBD5E0 #F3F4F6'
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#CBD5E0 #F3F4F6",
               }}
             >
               <div className="p-4 space-y-6">
@@ -121,7 +124,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                   title="Industry"
                   categories={industryCategories}
                   selectedValues={localFilters.industry}
-                  onChange={(values) => handleFilterChange('industry', values)}
+                  onChange={(values) => handleFilterChange("industry", values)}
                 />
 
                 {/* Location Filter */}
@@ -129,7 +132,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                   title="Location"
                   categories={locationCategories}
                   selectedValues={localFilters.location}
-                  onChange={(values) => handleFilterChange('location', values)}
+                  onChange={(values) => handleFilterChange("location", values)}
                 />
 
                 {/* Company Size Filter */}
@@ -143,12 +146,16 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                           onChange={(e) => {
                             const newSizes = e.target.checked
                               ? [...localFilters.companySize, size]
-                              : localFilters.companySize.filter((s) => s !== size);
-                            handleFilterChange('companySize', newSizes);
+                              : localFilters.companySize.filter(
+                                  (s) => s !== size,
+                                );
+                            handleFilterChange("companySize", newSizes);
                           }}
                           className="h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
                         />
-                        <span className="ml-2 text-sm text-gray-600">{size}</span>
+                        <span className="ml-2 text-sm text-gray-600">
+                          {size}
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -163,7 +170,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         type="number"
                         value={localFilters.establishedYear.min}
                         onChange={(e) => {
-                          handleFilterChange('establishedYear', {
+                          handleFilterChange("establishedYear", {
                             ...localFilters.establishedYear,
                             min: parseInt(e.target.value) || 0,
                           });
@@ -177,7 +184,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         type="number"
                         value={localFilters.establishedYear.max}
                         onChange={(e) => {
-                          handleFilterChange('establishedYear', {
+                          handleFilterChange("establishedYear", {
                             ...localFilters.establishedYear,
                             max: parseInt(e.target.value) || 0,
                           });
@@ -197,7 +204,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     step="0.5"
                     value={localFilters.rating}
                     onChange={(e) => {
-                      handleFilterChange('rating', parseFloat(e.target.value));
+                      handleFilterChange("rating", parseFloat(e.target.value));
                     }}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   />
@@ -210,10 +217,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
             {/* Gradient Overlay */}
             {showGradient && (
-              <div 
+              <div
                 className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
                 style={{
-                  background: 'linear-gradient(to bottom, transparent, white)',
+                  background: "linear-gradient(to bottom, transparent, white)",
                 }}
               />
             )}
